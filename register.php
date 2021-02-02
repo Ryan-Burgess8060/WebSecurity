@@ -94,7 +94,7 @@ register.php
 							$dbquery -> execute();
 							echo "You have been successfully Registered! Please try logging in.";
 							require_once 'logging.php';
-							auditlog("New Account Registered", '0', $suser, $spass, $squest, $sans);
+							auditLog("New Account Registered", '0', $suser, $spass, $squest, $sans);
 						}
 					} catch (PDOException $e) {
 						$error_message = $e -> getMessage();
