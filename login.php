@@ -76,9 +76,13 @@ login.php
 					if ($suser == $result['Username'] && $spass == $result['Password']) {
 						echo 'Authorized User';
 						$_SESSION['Username'] = $suser;
+						require_once "logging.php";
+						auditlog($myDBconnection, "User Login", 0, $suser, $spass, "NULL", "NULL");
 						header('Location:index.php');
 					} else { 
-						echo 'Unauthorized User';
+						echo 'Invalid Credentials';
+						require_once "logging.php";
+						auditlog($myDBconnection, "Login Attempt Failed", 1, $suser, $spass, "NULL", "NULL");
 						session_unset($_SESSION['Username']);
 						session_destroy();
 					}

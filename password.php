@@ -89,8 +89,12 @@ password.php
 					//Does the username match the data in the table?
 					if ($suser == $result['Username'] && $squest == $result['SecQuestion'] && $sans == $result['SecAnswer']) {
 						echo 'Your password is ' . $result['Password'];
+						require_once "logging.php";
+						auditlog($myDBconnection, "User Password Recovered", 1, $suser, "NULL", $squest, $sans);
 					} else { 
 						echo 'Invalid Credentials';
+						require_once "logging.php";
+						auditlog($myDBconnection, "Password Recovery Failed", 1, $suser, "NULL", $squest, $sans);
 					}
 					//remember to close IF statement
 				} else { //not all sanitized variables have values
