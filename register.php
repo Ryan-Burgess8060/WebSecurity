@@ -23,6 +23,7 @@ register.php
 		<li><a href="login.php">Login</a></li>
 		<li><a href="register.php">Register</a></li>
 		<li><a href="password.php">Forgot Password</a></li>
+		<li><a href="logout.php">Logout</a></li>
 		<li><a href="admin.php">Admin</a></li>
 		</ul>
 	</nav>

@@ -30,7 +30,7 @@ index.php
 	<main>
 		<?php
 		if (isset($_SESSION['Username'])) {
-			echo "<p>Welcome," . $_SESSION['Username'] . "</p>";
+			echo "<p>Welcome, " . $_SESSION['Username'] . "</p>";
 		} else {
 			echo "<p>Please log in or register.</p>";
 		}

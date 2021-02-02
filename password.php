@@ -23,6 +23,7 @@ password.php
 		<li><a href="login.php">Login</a></li>
 		<li><a href="register.php">Register</a></li>
 		<li><a href="password.php">Forgot Password</a></li>
+		<li><a href="logout.php">Logout</a></li>
 		<li><a href="admin.php">Admin</a></li>
 		</ul>
 	</nav>
@@ -87,7 +88,7 @@ password.php
 					}
 					//Does the username match the data in the table?
 					if ($suser == $result['Username'] && $squest == $result['SecQuestion'] && $sans == $result['SecAnswer']) {
-						echo 'Your password is' . $result['Password'];
+						echo 'Your password is ' . $result['Password'];
 					} else { 
 						echo 'Invalid Credentials';
 					}

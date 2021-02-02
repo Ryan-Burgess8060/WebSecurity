@@ -23,6 +23,7 @@ admin.php
 		<li><a href="login.php">Login</a></li>
 		<li><a href="register.php">Register</a></li>
 		<li><a href="password.php">Forgot Password</a></li>
+		<li><a href="logout.php">Logout</a></li>
 		<li><a href="admin.php">Admin</a></li>
 		</ul>
 	</nav>
@@ -47,11 +48,16 @@ admin.php
 		foreach ($results as &$arr) {
 		?>
 		<ul>
-		<li><?php echo $arr['Username'];?> <input type="submit" name="delete" value="Delete User" /></li>
+		<li>
+		<?php echo $arr['Username'];?> 
+		<form method="post">
+		<input type="submit" name="delete<?php echo $arr['Username']; ?>" value="Delete User" />
+		</form>
+		</li>
 		</ul>
 		<?php
-		$user = $arr['Username'];
-		if(isset($_POST["delete"])) {
+		$d = 'delete' . $arr['Username'];
+		if(isset($_POST[$d])) {
 			try {
 				$query = 'DELETE Username FROM accounts WHERE Username = :user;';
 				$dbquery = $myDBconnection -> prepare($query);
