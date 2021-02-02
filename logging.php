@@ -1,3 +1,8 @@
+<!--
+Ryan Burgess
+2/1/2021
+logging.php
+-->
 <?php 
 function auditlog($myDBconnection, $event, $severity, $username, $password, $secquestion, $secanswer) {
 $IP = $_SERVER['REMOTE_ADDR'];

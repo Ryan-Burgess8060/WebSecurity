@@ -32,10 +32,10 @@ password.php
 		<fieldset>
 		<legend>Please enter your User Name, Security Question, and Security Answer to recover your password.</legend>
 			<label for="user">User Name:</label>
-			<input type="text" class="txt" id="user" name="username" required />
+			<input type="text" class="txt" id="user" name="username" maxlength="30" required />
 			<br class="bre">
 			<label for="question">Security Question:</label>
-			<input type="text" list="questionOptions" name="question" id="age" class="question" />
+			<input type="text" list="questionOptions" name="question" id="age" class="question" required />
 				<datalist id="questionOptions">
 					<option value="What is the name of your first pet?">
 					<option value="What is your mother's maiden name?">
@@ -45,7 +45,7 @@ password.php
 				</datalist>
 			<br class="bre">
 			<label for="answer">Security Answer:</label>
-			<input type="text" class="txt" name="answer" id="answer" required />
+			<input type="text" class="txt" name="answer" id="answer" maxlength="50" required />
 		</fieldset>
 		<input type="submit" name="recover" value="Recover Password" />
 	</form>
@@ -71,35 +71,39 @@ password.php
 				$squest = sani( $_POST['question']);
 				$sans = sani( $_POST['answer']);
 				//do all the sanitized variables still have a value?
-				if( $suser != "" && $squest != "" && $sans != "") {
-					//try to insert the information into the database
-					try {
-						//check to see if your table has the same fields & is spelled the same way
-						$query = 'SELECT Username, Password, SecQuestion, SecAnswer FROM accounts WHERE Username = :user AND SecQuestion = :question AND SecAnswer = :answer';
-						$dbquery = $myDBconnection -> prepare($query);
-						$dbquery -> bindValue(':user', $suser); 
-						$dbquery -> bindValue(':question', $squest);
-						$dbquery -> bindValue(':answer', $sans);
-						$dbquery -> execute();
-						$result = $dbquery -> fetch();
-					} catch (PDOException $e) {
-						$error_message = $e->getMessage();
-						echo "<p>An error occurred while trying to retrieve data from the table: $error_message </p>";
+				if(strlen($_POST['username']) > 30 || strlen($_POST['answer']) > 50) {
+					echo "<p>You exceeded the maximum character limit!</p>";
+				} else {
+					if( $suser != "" && $squest != "" && $sans != "") {
+						//try to insert the information into the database
+						try {
+							//check to see if your table has the same fields & is spelled the same way
+							$query = 'SELECT Username, Password, SecQuestion, SecAnswer FROM accounts WHERE Username = :user AND SecQuestion = :question AND SecAnswer = :answer';
+							$dbquery = $myDBconnection -> prepare($query);
+							$dbquery -> bindValue(':user', $suser); 
+							$dbquery -> bindValue(':question', $squest);
+							$dbquery -> bindValue(':answer', $sans);
+							$dbquery -> execute();
+							$result = $dbquery -> fetch();
+						} catch (PDOException $e) {
+							$error_message = $e->getMessage();
+							echo "<p>An error occurred while trying to retrieve data from the table: $error_message </p>";
+						}
+						//Does the username match the data in the table?
+						if ($suser == $result['Username'] && $squest == $result['SecQuestion'] && $sans == $result['SecAnswer']) {
+							echo 'Your password is ' . $result['Password'];
+							require_once "logging.php";
+							auditlog($myDBconnection, "User Password Recovered", 1, $suser, "NULL", $squest, $sans);
+						} else { 
+							echo 'Invalid Credentials';
+							require_once "logging.php";
+							auditlog($myDBconnection, "Password Recovery Failed", 1, $suser, "NULL", $squest, $sans);
+						}
+						//remember to close IF statement
+					} else { //not all sanitized variables have values
+						echo "<p>Bad data was inserted into the fields.</p>";
 					}
-					//Does the username match the data in the table?
-					if ($suser == $result['Username'] && $squest == $result['SecQuestion'] && $sans == $result['SecAnswer']) {
-						echo 'Your password is ' . $result['Password'];
-						require_once "logging.php";
-						auditlog($myDBconnection, "User Password Recovered", 1, $suser, "NULL", $squest, $sans);
-					} else { 
-						echo 'Invalid Credentials';
-						require_once "logging.php";
-						auditlog($myDBconnection, "Password Recovery Failed", 1, $suser, "NULL", $squest, $sans);
-					}
-					//remember to close IF statement
-				} else { //not all sanitized variables have values
-					echo "<p>Bad data was inserted into the fields.</p>";
-				}			
+				}
 			} else { //not all fields were filled in
 				echo "<p>Not all fields were filled in.</p>";
 			}

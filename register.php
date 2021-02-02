@@ -32,13 +32,13 @@ register.php
 		<fieldset>
 		<legend>Please enter your details to register</legend>
 			<label for="username">User Name:</label>
-			<input type="text" class="txt" name="username" id="username" required />
+			<input type="text" class="txt" name="username" id="username" maxlength="30" required />
 			<br class="bre">
 			<label for="password">Password:</label>
-			<input type="password" class="txt" name="password" id="password" required />
+			<input type="password" class="txt" name="password" id="password" maxlength="50" required />
 			<br class="bre">
 			<label for="question">Security Question:</label>
-			<input type="text" list="questionOptions" name="question" id="age" class="question" />
+			<input type="text" list="questionOptions" name="question" id="age" class="question" required />
 				<datalist id="questionOptions">
 					<option value="What is the name of your first pet?">
 					<option value="What is your mother's maiden name?">
@@ -48,7 +48,7 @@ register.php
 				</datalist>
 			<br class="bre">
 			<label for="answer">Security Answer:</label>
-			<input type="text" class="txt" name="answer" id="answer" required />
+			<input type="text" class="txt" name="answer" id="answer" maxlength="50" required />
 		</fieldset>
 		<input type="submit" name="register" value="Register" />
 	</form>

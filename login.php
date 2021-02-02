@@ -32,10 +32,10 @@ login.php
 		<fieldset>
 		<legend>Please enter your details to log in</legend>
 			<label for="user">User Name:</label>
-			<input type="text" class="txt" id="user" name="username" required />
+			<input type="text" class="txt" id="user" name="username" maxlength="30" required />
 			<br class="bre">
 			<label for="pass">Password:</label>
-			<input type="password" id="pass" class="txt" name="password" required />
+			<input type="password" id="pass" class="txt" name="password" maxlength="50" required />
 		</fieldset>
 		<input type="submit" name="login" value="Log In" />
 	</form>
