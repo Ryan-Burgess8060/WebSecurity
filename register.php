@@ -96,6 +96,13 @@ register.php
 							// include 'logging.php';
 							function auditlog($event, $severity, $username, $password, $secquestion, $secanswer) {
 							$IP = $_SERVER['REMOTE_ADDR'];
+							echo $event;
+							echo $IP;
+							echo $severity;
+							echo $username;
+							echo $password;
+							echo $secquestion;
+							echo $secanswer;
 								try {
 									//Username, Password, Security Question, and Security Answer can be NULL in case they aren't used in certain events or are left blank
 									$query = 'INSERT INTO auditLog (Event, Severity, IP, Time, Username, Password, SecQuestion, SecAnswer) VALUES (:event, :severity, :ip, NOW(), :user, :pass, :question, :answer);';
