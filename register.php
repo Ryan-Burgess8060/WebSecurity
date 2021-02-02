@@ -96,7 +96,7 @@ register.php
 							$event = 'New Account Registered';
 							$severity = 0;
 							// require_once "logging.php";
-							function auditlog($event, $severity, $suser, $spass, $squest, $sans) {
+							// function auditlog($event, $severity, $suser, $spass, $squest, $sans) {
 							$IP = $_SERVER['REMOTE_ADDR'];
 								try {
 									//Username, Password, Security Question, and Security Answer can be NULL in case they aren't used in certain events or are left blank
@@ -114,8 +114,8 @@ register.php
 									$error_message = $e->getMessage();
 									echo "<p>An error occurred while trying to log data to the table: $error_message </p>";
 								}
-							}
-							auditlog($event, $severity, $suser, $spass, $squest, $sans);
+							// }
+							// auditlog($event, $severity, $suser, $spass, $squest, $sans);
 						}
 					} catch (PDOException $e) {
 						$error_message = $e -> getMessage();
