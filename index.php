@@ -36,6 +36,13 @@ index.php
 		}
 		?>
 		<p>This is the forum.</p>
+		<?php
+		function test($test) {
+			echo $test;
+		}
+		$test2 = "Hello"
+		test($test2);
+		?>
 	</main>
 </body>
 </html>
