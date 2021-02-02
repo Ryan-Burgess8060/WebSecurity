@@ -61,7 +61,7 @@ admin.php
 			try {
 				$query = 'DELETE Username FROM accounts WHERE Username = :user;';
 				$dbquery = $myDBconnection -> prepare($query);
-				$dbquery -> bindValue(':user', $user); 
+				$dbquery -> bindValue(':user', $arr['Username']); 
 				$dbquery -> execute();
 				header('Location:admin.php');
 			} catch (PDOException $e) {
