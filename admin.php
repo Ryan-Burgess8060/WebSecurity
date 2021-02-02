@@ -37,7 +37,7 @@ admin.php
 			print $error_message . "<br>";
 		}
 		try {
-			$query = "SELECT Username FROM accounts'";
+			$query = "SELECT Username FROM accounts;";
 			$dbquery = $myDBconnection -> prepare($query);
 			$dbquery -> execute();
 			$results = $dbquery -> fetchAll();
