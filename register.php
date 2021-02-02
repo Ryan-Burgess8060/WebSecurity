@@ -95,7 +95,7 @@ register.php
 							echo "You have been successfully Registered! Please try logging in.";
 							$event = 'New Account Registered';
 							$severity = 0;
-							require_once "logging.php";
+							// require_once "logging.php";
 							function auditlog($myDBconnection, $event, $severity, $suser, $spass, $squest, $sans) {
 							$IP = $_SERVER['REMOTE_ADDR'];
 								try {
