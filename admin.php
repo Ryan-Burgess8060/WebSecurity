@@ -59,7 +59,7 @@ admin.php
 		$d = 'delete' . $arr['Username'];
 		if(isset($_POST[$d])) {
 			try {
-				$query = 'DELETE Username FROM accounts WHERE Username = :user;';
+				$query = 'DELETE FROM accounts WHERE Username = :user;';
 				$dbquery = $myDBconnection -> prepare($query);
 				$dbquery -> bindValue(':user', $arr['Username']); 
 				$dbquery -> execute();
