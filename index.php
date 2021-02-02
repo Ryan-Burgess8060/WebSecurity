@@ -40,7 +40,7 @@ index.php
 		function test($test) {
 			echo $test;
 		}
-		$test2 = "Hello"
+		$test2 = "Hello";
 		test($test2);
 		?>
 	</main>
