@@ -63,7 +63,7 @@ admin.php
 				$dbquery = $myDBconnection -> prepare($query);
 				$dbquery -> bindValue(':user', $user); 
 				$dbquery -> execute();
-				$result = $dbquery -> fetch();
+				header('Location:admin.php');
 			} catch (PDOException $e) {
 				$error_message = $e->getMessage();
 				echo "<p>An error occurred while trying to delete data from the table: $error_message </p>";
