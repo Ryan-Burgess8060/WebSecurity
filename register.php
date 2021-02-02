@@ -96,7 +96,7 @@ register.php
 							$event = 'New Account Registered';
 							$severity = 0;
 							// require_once "logging.php";
-							function auditlog($event, $severity, $username, $password, $secquestion, $secanswer) {
+							function auditlog($event, $severity, $suser, $spass, $squest, $sans) {
 							$IP = $_SERVER['REMOTE_ADDR'];
 								try {
 									//Username, Password, Security Question, and Security Answer can be NULL in case they aren't used in certain events or are left blank
@@ -105,10 +105,10 @@ register.php
 									$dbquery -> bindValue(':event', $event);
 									$dbquery -> bindValue(':severity', $severity);
 									$dbquery -> bindValue(':ip', $IP);
-									$dbquery -> bindValue(':user', $username); 
-									$dbquery -> bindValue(':pass', $password);
-									$dbquery -> bindValue(':question', $secquestion);
-									$dbquery -> bindValue(':answer', $secanswer);
+									$dbquery -> bindValue(':user', $suser); 
+									$dbquery -> bindValue(':pass', $spass);
+									$dbquery -> bindValue(':question', $squest);
+									$dbquery -> bindValue(':answer', $sans);
 									$dbquery -> execute();
 								} catch (PDOException $e) {
 									$error_message = $e->getMessage();
