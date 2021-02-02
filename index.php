@@ -36,21 +36,6 @@ index.php
 		}
 		?>
 		<p>This is the forum.</p>
-		<?php
-		function test($test, $test2, $test3, $test4, $test5) {
-			echo $test;
-			echo $test2;
-			echo $test3;
-			echo $test4;
-			echo $test5;
-		}
-		$quiz = "hello1";
-		$quiz2 = "hello2";
-		$quiz3 = "hello3";
-		$quiz4 = "hello4";
-		$quiz5 = "hello5";
-		test("hello1", $quiz2, $quiz3, $quiz4, $quiz5);
-		?>
 	</main>
 </body>
 </html>
