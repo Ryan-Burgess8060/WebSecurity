@@ -85,7 +85,7 @@ register.php
 						if (in_array($suser, $result)) {
 							echo "User already registered";
 						} else {
-							$query = "INSERT INTO accounts (Username, Password, SecQuestion, SecAnswer) VALUES (:user, :pass, :question, :answer)";
+							$query = "INSERT INTO accounts (Username, Password, SecQuestion, SecAnswer) VALUES (:user, :pass, :question, :answer);";
 							$dbquery = $myDBconnection -> prepare($query);
 							$dbquery -> bindValue(':user', $suser);
 							$dbquery -> bindValue(':pass', $spass);
@@ -93,6 +93,8 @@ register.php
 							$dbquery -> bindValue(':answer', $sans);
 							$dbquery -> execute();
 							echo "You have been successfully Registered! Please try logging in.";
+							require_once 'logging.php';
+							auditlog("New Account Registered", '0', $suser, $spass, $squest, $sans);
 						}
 					} catch (PDOException $e) {
 						$error_message = $e -> getMessage();
