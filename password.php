@@ -50,7 +50,7 @@ password.php
 		<input type="submit" name="recover" value="Recover Password" />
 	</form>
 	<?php
-		//Connect to DB
+
 		require_once 'database.php'; 
 		try {
 			$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
@@ -58,26 +58,26 @@ password.php
 			$error_message = $e->getMessage();
 			print $error_message . "<br>";
 		}
-		//sanitize function (to clean up malicious data)
+
 		function sani($bad){
 			$good =  htmlentities( strip_tags( stripslashes( $bad ) ) );
 			return $good;
 		}
-		//has the form been submitted?
+
 		if(isset($_POST["recover"])){ 
-			//are all the fields filled out?
+
 			if( !empty($_POST["username"]) && !empty($_POST['question']) && !empty($_POST['answer'])) {
 				$suser = sani($_POST["username"]);
 				$squest = sani( $_POST['question']);
 				$sans = sani( $_POST['answer']);
-				//do all the sanitized variables still have a value?
+				//if the user bypasses clientside character limit, stops their attempt and logs it
 				if(strlen($_POST['username']) > 30 || strlen($_POST['answer']) > 50) {
 					echo "<p>You exceeded the maximum character limit!</p>";
+					require_once "logging.php";
+					auditlog($myDBconnection, "Password Recovery Attempt Exceeded Character Limit", 2, $suser, "NULL", $squest, $sans);
 				} else {
 					if( $suser != "" && $squest != "" && $sans != "") {
-						//try to insert the information into the database
 						try {
-							//check to see if your table has the same fields & is spelled the same way
 							$query = 'SELECT Username, Password, SecQuestion, SecAnswer FROM accounts WHERE Username = :user AND SecQuestion = :question AND SecAnswer = :answer';
 							$dbquery = $myDBconnection -> prepare($query);
 							$dbquery -> bindValue(':user', $suser); 
@@ -89,7 +89,6 @@ password.php
 							$error_message = $e->getMessage();
 							echo "<p>An error occurred while trying to retrieve data from the table: $error_message </p>";
 						}
-						//Does the username match the data in the table?
 						if ($suser == $result['Username'] && $squest == $result['SecQuestion'] && $sans == $result['SecAnswer']) {
 							echo 'Your password is ' . $result['Password'];
 							require_once "logging.php";
@@ -99,7 +98,6 @@ password.php
 							require_once "logging.php";
 							auditlog($myDBconnection, "Password Recovery Failed", 1, $suser, "NULL", $squest, $sans);
 						}
-						//remember to close IF statement
 					} else { //not all sanitized variables have values
 						echo "<p>Bad data was inserted into the fields.</p>";
 					}

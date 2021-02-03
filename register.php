@@ -38,7 +38,7 @@ register.php
 			<input type="password" class="txt" name="password" id="password" maxlength="50" required />
 			<br class="bre">
 			<label for="question">Security Question:</label>
-			<input type="text" list="questionOptions" name="question" id="age" class="question" required />
+			<input type="text" list="questionOptions" name="question" id="question" class="question" required />
 				<datalist id="questionOptions">
 					<option value="What is the name of your first pet?">
 					<option value="What is your mother's maiden name?">
@@ -64,46 +64,52 @@ register.php
 			$good =  htmlentities( strip_tags( stripslashes( $bad ) ) );
 			return $good;
 		}
-		//is form submitted?
+
 		if(isset($_POST['register'])) {
-			//do the form fields have data?
+
 			if( !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['question']) && !empty($_POST['answer'])){
-				//send each field to the sani function
+
 				$suser = sani( $_POST['username'] );
 				$spass = sani( $_POST['password'] );
 				$squest = sani( $_POST['question'] );
 				$sans = sani( $_POST['answer'] );
-				//do all the sanitized variables of form fields still hold data?
-				if($suser != "" && $spass != "" && $squest != "" && $sans != ""){
-					//try to run the insert query with the sanitized data
-					try {
-						$query = "SELECT Username FROM accounts WHERE Username = :user";
-						$dbquery = $myDBconnection -> prepare($query);
-						$dbquery -> bindValue(':user',$suser);
-						$dbquery -> execute();
-						$result = $dbquery -> fetch();
-						if (in_array($suser, $result)) {
-							echo "User already registered";
-						} else {
-							$query = "INSERT INTO accounts (Username, Password, SecQuestion, SecAnswer) VALUES (:user, :pass, :question, :answer);";
-							$dbquery = $myDBconnection -> prepare($query);
-							$dbquery -> bindValue(':user', $suser);
-							$dbquery -> bindValue(':pass', $spass);
-							$dbquery -> bindValue(':question', $squest);
-							$dbquery -> bindValue(':answer', $sans);
-							$dbquery -> execute();
-							echo "You have been successfully Registered! Please try logging in.";
-							// $event = 'New Account Registered';
-							// $severity = 0;
-							require_once "logging.php";
-							auditlog($myDBconnection, "New Account Registered", 0, $suser, $spass, $squest, $sans);
-						}
-					} catch (PDOException $e) {
-						$error_message = $e -> getMessage();
-						echo $error_message . "<br>";
-					}
+				
+				//if the user bypasses clientside character limit, stops their attempt and logs it
+				if(strlen($_POST['username']) > 30 || strlen($_POST['password']) > 50 || strlen($_POST['answer']) > 50) {
+					echo "<p>You exceeded the maximum character limit!</p>";
+					require_once "logging.php";
+					auditlog($myDBconnection, "Register Attempt Exceeded Character Limit", 2, $suser, $spass, $squest, $sans);
 				} else {
-					echo "Not all fields passed sanitization";
+
+					if($suser != "" && $spass != "" && $squest != "" && $sans != ""){
+
+						try {
+							$query = "SELECT Username FROM accounts WHERE Username = :user";
+							$dbquery = $myDBconnection -> prepare($query);
+							$dbquery -> bindValue(':user',$suser);
+							$dbquery -> execute();
+							$result = $dbquery -> fetch();
+							if (in_array($suser, $result)) {
+								echo "User already registered";
+							} else {
+								$query = "INSERT INTO accounts (Username, Password, SecQuestion, SecAnswer) VALUES (:user, :pass, :question, :answer);";
+								$dbquery = $myDBconnection -> prepare($query);
+								$dbquery -> bindValue(':user', $suser);
+								$dbquery -> bindValue(':pass', $spass);
+								$dbquery -> bindValue(':question', $squest);
+								$dbquery -> bindValue(':answer', $sans);
+								$dbquery -> execute();
+								echo "You have been successfully Registered! Please try logging in.";
+								require_once "logging.php";
+								auditlog($myDBconnection, "New Account Registered", 0, $suser, $spass, $squest, $sans);
+							}
+						} catch (PDOException $e) {
+							$error_message = $e -> getMessage();
+							echo $error_message . "<br>";
+						}
+					} else {
+						echo "Not all fields passed sanitization";
+					}
 				}
 			} else {
 				echo "Not all fields were filled in.";

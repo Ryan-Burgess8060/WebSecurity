@@ -47,49 +47,51 @@ login.php
 			$error_message = $e->getMessage();
 			print $error_message . "<br>";
 		}
-		//sanitize function (to clean up malicious data)
+		//sanitize function
 		function sani($bad){
 			$good =  htmlentities( strip_tags( stripslashes( $bad ) ) );
 			return $good;
 		}
-		//has the form been submitted?
 		if(isset($_POST["login"])){ 
-			//are all the fields filled out?
+			
 			if( !empty($_POST["username"]) && !empty($_POST["password"])) {
 				$suser = sani($_POST["username"]);
 				$spass = sani($_POST["password"]);
-				//do all the sanitized variables still have a value?
-				if( $suser != "" && $spass != "" ) {
-					//try to insert the information into the database
-					try {
-						$query = 'SELECT Username, Password FROM accounts WHERE Username = :user AND Password = :pass;';
-						$dbquery = $myDBconnection -> prepare($query);
-						$dbquery -> bindValue(':user', $suser); 
-						$dbquery -> bindValue(':pass', $spass);
-						$dbquery -> execute();
-						$result = $dbquery -> fetch();
-					} catch (PDOException $e) {
-						$error_message = $e->getMessage();
-						echo "<p>An error occurred while trying to retrieve data from the table: $error_message </p>";
+				//if the user bypasses clientside character limit, stops their attempt and logs it
+				if(strlen($_POST['username']) > 30 || strlen($_POST['password']) > 50) {
+					echo "<p>You exceeded the maximum character limit!</p>";
+					require_once "logging.php";
+					auditlog($myDBconnection, "Login Attempt Exceeded Character Limit", 2, $suser, $spass, "NULL", "NULL");
+				} else {
+					if( $suser != "" && $spass != "" ) {
+						try {
+							$query = 'SELECT Username, Password FROM accounts WHERE Username = :user AND Password = :pass;';
+							$dbquery = $myDBconnection -> prepare($query);
+							$dbquery -> bindValue(':user', $suser); 
+							$dbquery -> bindValue(':pass', $spass);
+							$dbquery -> execute();
+							$result = $dbquery -> fetch();
+						} catch (PDOException $e) {
+							$error_message = $e->getMessage();
+							echo "<p>An error occurred while trying to retrieve data from the table: $error_message </p>";
+						}
+						if ($suser == $result['Username'] && $spass == $result['Password']) {
+							echo 'Authorized User';
+							$_SESSION['Username'] = $suser;
+							require_once "logging.php";
+							auditlog($myDBconnection, "User Login", 0, $suser, $spass, "NULL", "NULL");
+							header('Location:index.php');
+						} else { 
+							echo 'Invalid Credentials';
+							require_once "logging.php";
+							auditlog($myDBconnection, "Login Attempt Failed", 1, $suser, $spass, "NULL", "NULL");
+							session_unset($_SESSION['Username']);
+							session_destroy();
+						}
+					} else { //not all sanitized variables have values
+						echo "<p>Bad data was inserted into the fields.</p>";
 					}
-					//Does the username match the data in the table?
-					if ($suser == $result['Username'] && $spass == $result['Password']) {
-						echo 'Authorized User';
-						$_SESSION['Username'] = $suser;
-						require_once "logging.php";
-						auditlog($myDBconnection, "User Login", 0, $suser, $spass, "NULL", "NULL");
-						header('Location:index.php');
-					} else { 
-						echo 'Invalid Credentials';
-						require_once "logging.php";
-						auditlog($myDBconnection, "Login Attempt Failed", 1, $suser, $spass, "NULL", "NULL");
-						session_unset($_SESSION['Username']);
-						session_destroy();
-					}
-					
-				} else { //not all sanitized variables have values
-					echo "<p>Bad data was inserted into the fields.</p>";
-				}			
+				}
 			} else { //not all fields were filled in
 				echo "<p>Not all fields were filled in.</p>";
 			}
