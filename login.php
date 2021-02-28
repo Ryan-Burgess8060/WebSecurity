@@ -65,7 +65,7 @@ login.php
 				} else {
 					if( $suser != "" && $spass != "" ) {
 						try {
-							$query = 'SELECT Username, Password FROM accounts WHERE Username = :user AND Password = :pass;';
+							$query = 'SELECT Username, Password, Admin FROM accounts WHERE Username = :user AND Password = :pass;';
 							$dbquery = $myDBconnection -> prepare($query);
 							$dbquery -> bindValue(':user', $suser); 
 							$dbquery -> bindValue(':pass', $spass);
@@ -78,6 +78,9 @@ login.php
 						if ($suser == $result['Username'] && $spass == $result['Password']) {
 							echo 'Authorized User';
 							$_SESSION['Username'] = $suser;
+							if ($result['Admin'] = 1) {
+								$_SESSION['Admin'] = 1;
+							}
 							require_once "logging.php";
 							auditlog($myDBconnection, "User Login", 0, $suser, $spass, "NULL", "NULL");
 							header('Location:index.php');

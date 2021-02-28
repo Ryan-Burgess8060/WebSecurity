@@ -5,11 +5,11 @@ session_start();
 <html lang="en-US">
 <!--
 Christopher Burgess
-1/29/2021
-index.php
+2/28/2021
+topic.php
 -->
 <head>
-	<title>Webserver Home</title>
+	<title>Forum Topic</title>
 	<meta charset="utf-8"/>
 	<!-- <link href="style.css" rel="css/stylesheet"/> -->
 </head>
@@ -28,21 +28,7 @@ index.php
 		</ul>
 	</nav>
 	<main>
-		<?php
-		if (isset($_SESSION['Username'])) {
-			echo "<p>Welcome, " . $_SESSION['Username'] . "</p>";
-		} else {
-			echo "<p>Please log in or register.</p>";
-		}
-		?>
-		<h1>Forum Topics</h1>
-		<ul>
-			<li><a href="topic.php?t=1"></a></li>
-			<li><a href="topic.php?t=2"></a></li>
-			<li><a href="topic.php?t=3"></a></li>
-			<li><a href="topic.php?t=4"></a></li>
-			<li><a href="topic.php?t=5"></a></li>
-		</ul>
+		<p>Topic pages coming soon!</p>
 	</main>
 </body>
 </html>

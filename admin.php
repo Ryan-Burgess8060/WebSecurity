@@ -1,5 +1,10 @@
 <?php 
 session_start();
+if (isset($_SESSION['Admin'])) {
+} else {
+	session_destroy();
+	header('Location:index.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -37,7 +42,7 @@ admin.php
 			print $error_message . "<br>";
 		}
 		try {
-			$query = "SELECT Username FROM accounts;";
+			$query = "SELECT Username FROM accounts WHERE Admin = NULL;";
 			$dbquery = $myDBconnection -> prepare($query);
 			$dbquery -> execute();
 			$results = $dbquery -> fetchAll();

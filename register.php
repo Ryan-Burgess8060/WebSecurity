@@ -80,9 +80,7 @@ register.php
 					require_once "logging.php";
 					auditlog($myDBconnection, "Register Attempt Exceeded Character Limit", 2, $suser, $spass, $squest, $sans);
 				} else {
-
 					if($suser != "" && $spass != "" && $squest != "" && $sans != ""){
-
 						try {
 							$query = "SELECT Username FROM accounts WHERE Username = :user";
 							$dbquery = $myDBconnection -> prepare($query);
