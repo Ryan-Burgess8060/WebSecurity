@@ -42,7 +42,7 @@ admin.php
 			print $error_message . "<br>";
 		}
 		try {
-			$query = "SELECT Username FROM accounts WHERE Admin = NULL;";
+			$query = "SELECT Username FROM accounts WHERE Admin IS NULL;";
 			$dbquery = $myDBconnection -> prepare($query);
 			$dbquery -> execute();
 			$results = $dbquery -> fetchAll();

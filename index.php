@@ -37,11 +37,11 @@ index.php
 		?>
 		<h1>Forum Topics</h1>
 		<ul>
-			<li><a href="topic.php?t=1"></a></li>
-			<li><a href="topic.php?t=2"></a></li>
-			<li><a href="topic.php?t=3"></a></li>
-			<li><a href="topic.php?t=4"></a></li>
-			<li><a href="topic.php?t=5"></a></li>
+			<li><a href="topic.php?t=1">How to get better at games.</a></li>
+			<li><a href="topic.php?t=2">I need help with this project!</a></li>
+			<li><a href="topic.php?t=3">Destress: A Guide to Relaxing</a></li>
+			<li><a href="topic.php?t=4">What even is this forum about?</a></li>
+			<li><a href="topic.php?t=5">Wow I hate it here!</a></li>
 		</ul>
 	</main>
 </body>
