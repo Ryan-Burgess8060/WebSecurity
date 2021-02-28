@@ -35,7 +35,7 @@ login.php
 			<input type="text" class="txt" id="user" name="username" maxlength="30" required />
 			<br class="bre">
 			<label for="pass">Password:</label>
-			<input type="password" id="pass" class="txt" name="password" maxlength="50" required />
+			<input type="password" id="pass" class="txt" name="password" maxlength="50" required /><a href='password.php'>Forgot Password?</a>
 		</fieldset>
 		<input type="submit" name="login" value="Log In" />
 	</form>
