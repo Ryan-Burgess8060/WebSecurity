@@ -11,11 +11,11 @@ $token = 0;
 if(isset($_COOKIE['Authentication'])) {
 	try {
 		// $token = $_COOKIE['Authentication'];
-		$query = 'SELECT * FROM sessions WHERE Token = :token AND Expiration > NOW();';
-		$dbquery = $myDBconnection -> prepare($query);
-		$dbquery -> bindValue(':token', $token); 
-		$dbquery -> execute();
-		$result = $dbquery -> fetch();
+		// $query = 'SELECT * FROM sessions WHERE Token = :token AND Expiration > NOW();';
+		// $dbquery = $myDBconnection -> prepare($query);
+		// $dbquery -> bindValue(':token', $token); 
+		// $dbquery -> execute();
+		// $result = $dbquery -> fetch();
 		if($result != "") {
 			$loggedIn = True;
 			if($result['Admin'] == "Yes") {
