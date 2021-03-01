@@ -1,6 +1,6 @@
 <?php 
 session_start();
-if ($_SESSION['Admin'] == 1) {
+if ($_SESSION['Admin'] == "True") {
 } else {
 	auditlog($myDBconnection, "Unauthorized User in Admin Page", 2, "NULL", "NULL", "NULL", "NULL");
 	session_destroy();

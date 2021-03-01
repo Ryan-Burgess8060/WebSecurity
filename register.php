@@ -90,7 +90,7 @@ register.php
 							if (in_array($suser, $result)) {
 								echo "User already registered";
 							} else {
-								$query = "INSERT INTO accounts (Username, Password, SecQuestion, SecAnswer, Admin) VALUES (:user, :pass, :question, :answer, 0);";
+								$query = "INSERT INTO accounts (Username, Password, SecQuestion, SecAnswer, Admin) VALUES (:user, :pass, :question, :answer, 'False');";
 								$dbquery = $myDBconnection -> prepare($query);
 								$dbquery -> bindValue(':user', $suser);
 								$dbquery -> bindValue(':pass', $spass);
