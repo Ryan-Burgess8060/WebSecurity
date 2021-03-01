@@ -1,5 +1,5 @@
 <?php 
-session_start();
+require cookie.php;
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -71,15 +71,17 @@ login.php
 							echo "<p>An error occurred while trying to retrieve data from the table: $error_message </p>";
 						}
 						if ($suser == $result['Username'] && password_verify($spass, $result['Password'])) {
-							echo 'Authorized User';
-							$_SESSION['Username'] = $suser;
-							if ($result['Admin'] == "Yes") {
-								$_SESSION['Admin'] = "Yes";
-								echo "Admin Triggered";
-							}
 							$spass = password_hash($spass, PASSWORD_DEFAULT);
 							require_once "logging.php";
 							auditlog($myDBconnection, "User Login", 0, $suser, $spass, "NULL", "NULL");
+							$token = bin2hex(random_bytes(10));
+							$query = 'INSERT INTO sessions (Username, Token, Expiration, Admin) VALUES (:user, :token, DATE_ADD(NOW(), INTERVAL 7 DAY), :admin);';
+							$dbquery = $myDBconnection -> prepare($query);
+							$dbquery -> bindValue(':user', $suser); 
+							$dbquery -> bindValue(':token', $token); 
+							$dbquery -> bindValue(':admin', $result['Admin']); 
+							$dbquery -> execute();
+							setcookie('Authentication', $token, time() + (86400 * 7), "/");
 							header('Location:index.php');
 						} else { 
 							echo 'Invalid Credentials';

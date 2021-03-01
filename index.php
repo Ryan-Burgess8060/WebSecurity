@@ -1,5 +1,5 @@
 <?php 
-session_start();
+require cookie.php;
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -24,8 +24,13 @@ index.php
 	</nav>
 	<main>
 		<?php
-		if (isset($_SESSION['Username'])) {
-			echo "<p>Welcome, " . $_SESSION['Username'] . "</p>";
+		if ($loggedin == True) {
+			$query = 'SELECT Username FROM sessions WHERE Token = :token;';
+			$dbquery = $myDBconnection -> prepare($query);
+			$dbquery -> bindValue(':token', $token); 
+			$dbquery -> execute();
+			$result = $dbquery -> fetch();
+			echo "<p>Welcome, " . $result['Username'] . "</p>";
 		} else {
 			echo "<p>Please log in or register.</p>";
 		}

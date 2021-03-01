@@ -1,8 +1,7 @@
 <?php 
-session_start();
-if ($_SESSION['Admin'] == "Yes") {
+require cookie.php;
+if ($Admin == True) {
 } else {
-	session_destroy();
 	header('Location:index.php');
 }
 ?>
