@@ -8,6 +8,7 @@ require "database.php";
 $loggedIn = False;
 $Admin = False;
 $token = 0;
+$result = "";
 if(isset($_COOKIE['Authentication'])) {
 	try {
 		// $token = $_COOKIE['Authentication'];
