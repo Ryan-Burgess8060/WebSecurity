@@ -2,6 +2,7 @@
 session_start();
 if ($_SESSION['Admin'] == "Yes") {
 } else {
+	require_once "logging.php";
 	auditlog($myDBconnection, "Unauthorized User in Admin Page", 2, "NULL", "NULL", "NULL", "NULL");
 	session_destroy();
 	header('Location:index.php');
@@ -24,14 +25,9 @@ admin.php
 	<h1>Ryan's Forums</h1>
 	</header>
 	<nav>
-		<ul>
-		<li><a href="index.php">Home</a></li>
-		<li><a href="login.php">Login</a></li>
-		<li><a href="register.php">Register</a></li>
-		<li><a href="password.php">Forgot Password</a></li>
-		<li><a href="logout.php">Logout</a></li>
-		<li><a href="admin.php">Admin</a></li>
-		</ul>
+	<?php
+		require "nav.php";
+	?>
 	</nav>
 	<main>
 		<?php
@@ -43,7 +39,7 @@ admin.php
 			print $error_message . "<br>";
 		}
 		try {
-			$query = "SELECT Username FROM accounts WHERE Admin = 'False';";
+			$query = "SELECT Username FROM accounts WHERE Admin = 'No';";
 			$dbquery = $myDBconnection -> prepare($query);
 			$dbquery -> execute();
 			$results = $dbquery -> fetchAll();
