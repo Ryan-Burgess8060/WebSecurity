@@ -7,6 +7,7 @@ cookie.php
 require "database.php";
 $loggedIn = False;
 $Admin = False;
+$token = 0;
 if(isset($_COOKIE['Authentication'])) {
 	try {
 		$token = $_COOKIE['Authentication'];
