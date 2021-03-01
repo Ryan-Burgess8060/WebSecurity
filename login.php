@@ -55,8 +55,8 @@ login.php
 				//if the user bypasses clientside character limit, stops their attempt and logs it
 				if(strlen($_POST['username']) > 30 || strlen($_POST['password']) > 50) {
 					echo "<p>You exceeded the maximum character limit!</p>";
-					require_once "logging.php";
 					$spass = password_hash($spass, PASSWORD_DEFAULT);
+					require_once "logging.php";
 					auditlog($myDBconnection, "Login Attempt Exceeded Character Limit", 2, $suser, $spass, "NULL", "NULL");
 				} else {
 					if( $suser != "" && $spass != "" ) {
@@ -77,14 +77,14 @@ login.php
 								$_SESSION['Admin'] = "Yes";
 								echo "Admin Triggered";
 							}
-							require_once "logging.php";
 							$spass = password_hash($spass, PASSWORD_DEFAULT);
+							require_once "logging.php";
 							auditlog($myDBconnection, "User Login", 0, $suser, $spass, "NULL", "NULL");
 							// header('Location:index.php');
 						} else { 
 							echo 'Invalid Credentials';
-							require_once "logging.php";
 							$spass = password_hash($spass, PASSWORD_DEFAULT);
+							require_once "logging.php";
 							auditlog($myDBconnection, "Login Attempt Failed", 1, $suser, $spass, "NULL", "NULL");
 							session_unset($_SESSION['Username']);
 							session_destroy();

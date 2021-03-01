@@ -72,9 +72,9 @@ register.php
 				//if the user bypasses clientside character limit, stops their attempt and logs it
 				if(strlen($_POST['username']) > 30 || strlen($_POST['password']) > 50 || strlen($_POST['answer']) > 50) {
 					echo "<p>You exceeded the maximum character limit!</p>";
-					require_once "logging.php";
 					$spass = password_hash($spass, PASSWORD_DEFAULT);
 					$sans = password_hash($sans, PASSWORD_DEFAULT);
+					require_once "logging.php";
 					auditlog($myDBconnection, "Register Attempt Exceeded Character Limit", 2, $suser, $spass, $squest, $sans);
 				} else {
 					if($suser != "" && $spass != "" && $squest != "" && $sans != ""){
