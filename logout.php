@@ -1,4 +1,5 @@
 <?php 
-setcookie("Authentication", "", time() - 3600);
+require "cookie.php";
+setcookie("Authentication", $token, time() - 3600);
 header('Location:index.php');
 ?>
