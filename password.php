@@ -29,6 +29,9 @@ password.php
 			<label for="user">User Name:</label>
 			<input type="text" class="txt" id="user" name="username" maxlength="30" required />
 			<br class="bre">
+			<label for="pass">New Password:</label>
+			<input type="password" id="pass" class="txt" name="password" maxlength="50" required />
+			<br class="bre">
 			<label for="question">Security Question:</label>
 			<input type="text" list="questionOptions" name="question" id="age" class="question" required />
 				<datalist id="questionOptions">
@@ -61,37 +64,47 @@ password.php
 
 		if(isset($_POST["recover"])){ 
 
-			if( !empty($_POST["username"]) && !empty($_POST['question']) && !empty($_POST['answer'])) {
+			if( !empty($_POST["username"]) && !empty($_POST['password']) && !empty($_POST['question']) && !empty($_POST['answer'])) {
 				$suser = sani($_POST["username"]);
+				$spass = sani($_POST["password"]);
 				$squest = sani( $_POST['question']);
 				$sans = sani( $_POST['answer']);
 				//if the user bypasses clientside character limit, stops their attempt and logs it
-				if(strlen($_POST['username']) > 30 || strlen($_POST['answer']) > 50) {
+				if(strlen($_POST['username']) > 30 || strlen($_POST['password']) > 50 || strlen($_POST['answer']) > 50) {
 					echo "<p>You exceeded the maximum character limit!</p>";
 					require_once "logging.php";
-					auditlog($myDBconnection, "Password Recovery Attempt Exceeded Character Limit", 2, $suser, "NULL", $squest, $sans);
+					$spass = password_hash($spass, PASSWORD_DEFAULT);
+					$sans = password_hash($sans, PASSWORD_DEFAULT);
+					auditlog($myDBconnection, "Password Recovery Attempt Exceeded Character Limit", 2, $suser, $spass, $squest, $sans);
 				} else {
-					if( $suser != "" && $squest != "" && $sans != "") {
+					if( $suser != "" && $spass != "" && $squest != "" && $sans != "") {
 						try {
-							$query = 'SELECT Username, Password, SecQuestion, SecAnswer FROM accounts WHERE Username = :user AND SecQuestion = :question AND SecAnswer = :answer';
+							$query = 'SELECT Username, Password, SecQuestion, SecAnswer FROM accounts WHERE Username = :user';
 							$dbquery = $myDBconnection -> prepare($query);
 							$dbquery -> bindValue(':user', $suser); 
-							$dbquery -> bindValue(':question', $squest);
-							$dbquery -> bindValue(':answer', $sans);
 							$dbquery -> execute();
 							$result = $dbquery -> fetch();
 						} catch (PDOException $e) {
 							$error_message = $e->getMessage();
 							echo "<p>An error occurred while trying to retrieve data from the table: $error_message </p>";
 						}
-						if ($suser == $result['Username'] && $squest == $result['SecQuestion'] && $sans == $result['SecAnswer']) {
-							echo 'Your password is ' . $result['Password'];
+						if ($suser == $result['Username'] && $squest == $result['SecQuestion'] && password_verify($sans, $result['SecAnswer'])) {
+							$spass = password_hash($spass, PASSWORD_DEFAULT);
+							$query = 'UPDATE accounts SET Password = :pass WHERE Username = :user;';
+							$dbquery = $myDBconnection -> prepare($query);
+							$dbquery -> bindValue(':user', $suser); 
+							$dbquery -> bindValue(':pass', $spass); 
+							$dbquery -> execute();
+							$sans = password_hash($sans, PASSWORD_DEFAULT);
+							echo "Password Updated!";
 							require_once "logging.php";
-							auditlog($myDBconnection, "User Password Recovered", 1, $suser, "NULL", $squest, $sans);
+							auditlog($myDBconnection, "User Password Recovered", 1, $suser, $spass, $squest, $sans);
 						} else { 
 							echo 'Invalid Credentials';
 							require_once "logging.php";
-							auditlog($myDBconnection, "Password Recovery Failed", 1, $suser, "NULL", $squest, $sans);
+							$spass = password_hash($spass, PASSWORD_DEFAULT);
+							$sans = password_hash($sans, PASSWORD_DEFAULT);
+							auditlog($myDBconnection, "Password Recovery Failed", 1, $suser, $spass, $squest, $sans);
 						}
 					} else { //not all sanitized variables have values
 						echo "<p>Bad data was inserted into the fields.</p>";

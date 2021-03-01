@@ -73,6 +73,8 @@ register.php
 				if(strlen($_POST['username']) > 30 || strlen($_POST['password']) > 50 || strlen($_POST['answer']) > 50) {
 					echo "<p>You exceeded the maximum character limit!</p>";
 					require_once "logging.php";
+					$spass = password_hash($spass, PASSWORD_DEFAULT);
+					$sans = password_hash($sans, PASSWORD_DEFAULT);
 					auditlog($myDBconnection, "Register Attempt Exceeded Character Limit", 2, $suser, $spass, $squest, $sans);
 				} else {
 					if($suser != "" && $spass != "" && $squest != "" && $sans != ""){
@@ -85,6 +87,8 @@ register.php
 							if (in_array($suser, $result)) {
 								echo "User already registered";
 							} else {
+								$spass = password_hash($spass, PASSWORD_DEFAULT);
+								$sans = password_hash($sans, PASSWORD_DEFAULT);
 								$query = "INSERT INTO accounts (Username, Password, SecQuestion, SecAnswer, Admin) VALUES (:user, :pass, :question, :answer, 'No');";
 								$dbquery = $myDBconnection -> prepare($query);
 								$dbquery -> bindValue(':user', $suser);

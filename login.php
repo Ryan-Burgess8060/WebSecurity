@@ -56,21 +56,21 @@ login.php
 				if(strlen($_POST['username']) > 30 || strlen($_POST['password']) > 50) {
 					echo "<p>You exceeded the maximum character limit!</p>";
 					require_once "logging.php";
+					$spass = password_hash($spass, PASSWORD_DEFAULT);
 					auditlog($myDBconnection, "Login Attempt Exceeded Character Limit", 2, $suser, $spass, "NULL", "NULL");
 				} else {
 					if( $suser != "" && $spass != "" ) {
 						try {
-							$query = 'SELECT Username, Password, Admin FROM accounts WHERE Username = :user AND Password = :pass;';
+							$query = 'SELECT Username, Password, Admin FROM accounts WHERE Username = :user;';
 							$dbquery = $myDBconnection -> prepare($query);
 							$dbquery -> bindValue(':user', $suser); 
-							$dbquery -> bindValue(':pass', $spass);
 							$dbquery -> execute();
 							$result = $dbquery -> fetch();
 						} catch (PDOException $e) {
 							$error_message = $e->getMessage();
 							echo "<p>An error occurred while trying to retrieve data from the table: $error_message </p>";
 						}
-						if ($suser == $result['Username'] && $spass == $result['Password']) {
+						if ($suser == $result['Username'] && password_verify($spass, $result['Password'])) {
 							echo 'Authorized User';
 							$_SESSION['Username'] = $suser;
 							if ($result['Admin'] == "Yes") {
@@ -78,11 +78,13 @@ login.php
 								echo "Admin Triggered";
 							}
 							require_once "logging.php";
+							$spass = password_hash($spass, PASSWORD_DEFAULT);
 							auditlog($myDBconnection, "User Login", 0, $suser, $spass, "NULL", "NULL");
 							// header('Location:index.php');
 						} else { 
 							echo 'Invalid Credentials';
 							require_once "logging.php";
+							$spass = password_hash($spass, PASSWORD_DEFAULT);
 							auditlog($myDBconnection, "Login Attempt Failed", 1, $suser, $spass, "NULL", "NULL");
 							session_unset($_SESSION['Username']);
 							session_destroy();
