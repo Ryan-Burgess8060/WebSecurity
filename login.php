@@ -78,8 +78,8 @@ login.php
 						if ($suser == $result['Username'] && $spass == $result['Password']) {
 							echo 'Authorized User';
 							$_SESSION['Username'] = $suser;
-							if ($result['Admin'] = "True") {
-								$_SESSION['Admin'] = "True";
+							if ($result['Admin'] == "Yes") {
+								$_SESSION['Admin'] = "Yes";
 								echo "Admin Triggered";
 							}
 							require_once "logging.php";

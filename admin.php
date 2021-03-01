@@ -1,6 +1,6 @@
 <?php 
 session_start();
-if ($_SESSION['Admin'] == "True") {
+if ($_SESSION['Admin'] == "Yes") {
 } else {
 	auditlog($myDBconnection, "Unauthorized User in Admin Page", 2, "NULL", "NULL", "NULL", "NULL");
 	session_destroy();
@@ -43,7 +43,7 @@ admin.php
 			print $error_message . "<br>";
 		}
 		try {
-			$query = "SELECT Username FROM accounts WHERE Admin IS NULL;";
+			$query = "SELECT Username FROM accounts WHERE Admin = 'False';";
 			$dbquery = $myDBconnection -> prepare($query);
 			$dbquery -> execute();
 			$results = $dbquery -> fetchAll();
