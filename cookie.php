@@ -4,7 +4,7 @@ Christopher Burgess
 cookie.php
 -->
 <?php 
-require "database.php";
+// require "database.php";
 // $loggedIn = False;
 // $Admin = False;
 // $token = 0;
