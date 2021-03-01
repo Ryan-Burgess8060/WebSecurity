@@ -1,5 +1,5 @@
 <?php 
-require cookie.php;
+require "cookie.php";
 if ($Admin == True) {
 } else {
 	header('Location:index.php');
