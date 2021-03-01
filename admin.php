@@ -2,8 +2,6 @@
 session_start();
 if ($_SESSION['Admin'] == "Yes") {
 } else {
-	require_once "logging.php";
-	auditlog($myDBconnection, "Unauthorized User in Admin Page", 2, "NULL", "NULL", "NULL", "NULL");
 	session_destroy();
 	header('Location:index.php');
 }

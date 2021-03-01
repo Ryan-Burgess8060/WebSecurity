@@ -80,7 +80,7 @@ login.php
 							$spass = password_hash($spass, PASSWORD_DEFAULT);
 							require_once "logging.php";
 							auditlog($myDBconnection, "User Login", 0, $suser, $spass, "NULL", "NULL");
-							// header('Location:index.php');
+							header('Location:index.php');
 						} else { 
 							echo 'Invalid Credentials';
 							$spass = password_hash($spass, PASSWORD_DEFAULT);
