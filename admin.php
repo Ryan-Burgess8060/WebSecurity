@@ -1,7 +1,8 @@
 <?php 
 session_start();
-if (isset($_SESSION['Admin'])) {
+if ($_SESSION['Admin'] == 1) {
 } else {
+	auditlog($myDBconnection, "Unauthorized User in Admin Page", 2, "NULL", "NULL", "NULL", "NULL");
 	session_destroy();
 	header('Location:index.php');
 }

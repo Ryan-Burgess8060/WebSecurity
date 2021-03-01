@@ -5,7 +5,7 @@ nav.php
 -->
 <?php require "database.php" ?>
 <?php
-	if (isset($_SESSION['Admin'])) {
+	if ($_SESSION['Admin'] == 1) {
 		echo '<ul><li><a href="index.php">Home</a></li><li><a href="logout.php">Logout</a></li><li><a href="admin.php">Admin</a></li></ul>';
 	} elseif (isset($_SESSION['Username'])) {
 		echo '<ul><li><a href="index.php">Home</a></li><li><a href="logout.php">Logout</a></li></ul>';
