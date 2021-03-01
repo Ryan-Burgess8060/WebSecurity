@@ -16,12 +16,12 @@ if(isset($_COOKIE['Authentication'])) {
 		$dbquery -> bindValue(':token', $token); 
 		$dbquery -> execute();
 		$result = $dbquery -> fetch();
-		if($result != "") {
-			$loggedIn = True;
-			if($result['Admin'] == "Yes") {
-				$Admin = True;
-			}
-		}
+		// if($result != "") {
+			// $loggedIn = True;
+			// if($result['Admin'] == "Yes") {
+				// $Admin = True;
+			// }
+		// }
 	} catch {
 		$error_message = $e->getMessage();
 	}
