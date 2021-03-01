@@ -35,7 +35,7 @@ login.php
 			<input type="text" class="txt" id="user" name="username" maxlength="30" required />
 			<br class="bre">
 			<label for="pass">Password:</label>
-			<input type="password" id="pass" class="txt" name="password" maxlength="50" required /><a href='password.php'>Forgot Password?</a>
+			<input type="password" id="pass" class="txt" name="password" maxlength="50" required /> <a href='password.php'>Forgot Password?</a>
 		</fieldset>
 		<input type="submit" name="login" value="Log In" />
 	</form>
@@ -80,10 +80,11 @@ login.php
 							$_SESSION['Username'] = $suser;
 							if ($result['Admin'] = 1) {
 								$_SESSION['Admin'] = 1;
+								echo "Admin Triggered";
 							}
 							require_once "logging.php";
 							auditlog($myDBconnection, "User Login", 0, $suser, $spass, "NULL", "NULL");
-							header('Location:index.php');
+							// header('Location:index.php');
 						} else { 
 							echo 'Invalid Credentials';
 							require_once "logging.php";
