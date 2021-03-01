@@ -1,5 +1,5 @@
 <?php 
-require cookie.php;
+// require cookie.php;
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
