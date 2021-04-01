@@ -48,7 +48,6 @@ topic.php
 					<h2><?php echo $arr['Title']; ?></h2>
 					<h3><?php echo "Posted by " . $arr['Username'] . "on" . $arr['Date']; ?></h3>
 					<p><?php echo $arr['Text']; ?></p>
-					<img src="<?php echo $arr['Image']; ?>" alt="Topic Image">
 				<?php } 
 			else {
 				echo "<p>Sorry! This topic does not exist!</p>"
