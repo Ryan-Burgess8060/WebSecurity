@@ -55,7 +55,7 @@ index.php
 		</ul>
 		<?php } ?>
 		<?php
-		// if ($loggedIn == True) {
+		if ($loggedIn == True) {
 		?>
 		<br>
 		<form method="post" >
@@ -130,7 +130,7 @@ index.php
 		} else {
 			echo "The form has not been submitted.";
 		}
-		// }
+		}
 	?>
 	</main>
 </body>
