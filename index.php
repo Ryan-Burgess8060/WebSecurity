@@ -53,10 +53,11 @@ index.php
 			<a href="topics.php?t=<?php echo $arr['ID']; ?>"><?php echo $arr['Title']; ?></a>
 			</li>
 		</ul>
-		<?php } 
-		if ($loggedIn == True) {
+		<?php } ?>
+		<?php
+		//if ($loggedIn == True) {
 		?>
-		<br>
+		<!--<br>
 		<form method="post" >
 		<fieldset>
 		<legend>Make your topics here!</legend>
@@ -70,66 +71,66 @@ index.php
 			<input type="file" id="image" name="image" />
 		</fieldset>
 		<input type="Post" name="Post" value="Post" />
-		</form>
+		</form>-->
 		<?php 
-		require_once 'database.php'; 
-		try {
-			$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
-		} catch (PDOException $e) {
-			$error_message = $e->getMessage();
-			print $error_message . "<br>";
-		}
-		function sani($bad){
-			$good =  htmlentities( strip_tags( stripslashes( $bad ) ) );
-			return $good;
-		}
+		// require_once 'database.php'; 
+		// try {
+			// $myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
+		// } catch (PDOException $e) {
+			// $error_message = $e->getMessage();
+			// print $error_message . "<br>";
+		// }
+		// function sani($bad){
+			// $good =  htmlentities( strip_tags( stripslashes( $bad ) ) );
+			// return $good;
+		// }
 
-		if(isset($_POST['Post'])) {
+		// if(isset($_POST['Post'])) {
 
-			if(!empty($_POST['title']) && !empty($_POST['text'])){
+			// if(!empty($_POST['title']) && !empty($_POST['text'])){
 
-				$stitle = sani( $_POST['username'] );
-				$stext= sani( $_POST['password'] );
+				// $stitle = sani( $_POST['username'] );
+				// $stext= sani( $_POST['password'] );
 				
-				if(!empty($_POST['image'])) {
-					simage = sani($_POST['image']);
-					if($simage != "") {
-						$dimage = $simage;
-					}
-				}
-				//if the user bypasses clientside character limit, stops their attempt and logs it
-				if(strlen($_POST['title']) > 100 || strlen($_POST['text']) > 2000) {
-					echo "<p>You exceeded the maximum character limit!</p>";
-					require_once "logging.php";
-					auditlog($myDBconnection, "Topic Creation Attempt Exceeded Character Limit", 2, $user, "NULL", "NULL", "NULL");
-				} else {
-					if($stitle != "" && $stext != ""){
-						try {
-							$query = "INSERT INTO topics (Username, Date, Title, Text, Image) VALUES (:user, NOW(), :title, :text, :image);";
-							$dbquery = $myDBconnection -> prepare($query);
-							$dbquery -> bindValue(':user', $user);
-							$dbquery -> bindValue(':title', $stitle);
-							$dbquery -> bindValue(':text', $stext);
-							$dbquery -> bindValue(':image', $dimage);
-							$dbquery -> execute();
-							echo "You have been successfully Registered! Please try logging in.";
-							require_once "logging.php";
-							auditlog($myDBconnection, "New Topic Posted", 0, $user, "NULL", "NULL", "NULL");
-						} catch (PDOException $e) {
-							$error_message = $e -> getMessage();
-							echo $error_message . "<br>";
-						}
-					} else {
-						echo "Not all fields passed sanitization";
-					}
-				}
-			} else {
-				echo "Not all fields were filled in.";
-			}
-		} else {
-			echo "The form has not been submitted.";
-		}
-		}
+				// if(!empty($_POST['image'])) {
+					// simage = sani($_POST['image']);
+					// if($simage != "") {
+						// $dimage = $simage;
+					// }
+				// }
+				// if the user bypasses clientside character limit, stops their attempt and logs it
+				// if(strlen($_POST['title']) > 100 || strlen($_POST['text']) > 2000) {
+					// echo "<p>You exceeded the maximum character limit!</p>";
+					// require_once "logging.php";
+					// auditlog($myDBconnection, "Topic Creation Attempt Exceeded Character Limit", 2, $user, "NULL", "NULL", "NULL");
+				// } else {
+					// if($stitle != "" && $stext != ""){
+						// try {
+							// $query = "INSERT INTO topics (Username, Date, Title, Text, Image) VALUES (:user, NOW(), :title, :text, :image);";
+							// $dbquery = $myDBconnection -> prepare($query);
+							// $dbquery -> bindValue(':user', $user);
+							// $dbquery -> bindValue(':title', $stitle);
+							// $dbquery -> bindValue(':text', $stext);
+							// $dbquery -> bindValue(':image', $dimage);
+							// $dbquery -> execute();
+							// echo "You have been successfully Registered! Please try logging in.";
+							// require_once "logging.php";
+							// auditlog($myDBconnection, "New Topic Posted", 0, $user, "NULL", "NULL", "NULL");
+						// } catch (PDOException $e) {
+							// $error_message = $e -> getMessage();
+							// echo $error_message . "<br>";
+						// }
+					// } else {
+						// echo "Not all fields passed sanitization";
+					// }
+				// }
+			// } else {
+				// echo "Not all fields were filled in.";
+			// }
+		// } else {
+			// echo "The form has not been submitted.";
+		// }
+		// }
 	?>
 	</main>
 </body>
