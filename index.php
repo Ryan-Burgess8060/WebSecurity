@@ -50,10 +50,12 @@ index.php
 		<h1>Forum Topics</h1>
 		<ul>
 			<li>
-			<a href="topics.php?t=<?php echo $arr['ID'] ?>"><?php $arr['Title'] ?></a>
+			<a href="topics.php?t=<?php echo $arr['ID']; ?>"><?php echo $arr['Title']; ?></a>
 			</li>
 		</ul>
-		<?php } ?>
+		<?php } 
+		if ($loggedIn == True) {
+		?>
 		<br>
 		<form method="post" >
 		<fieldset>
@@ -68,8 +70,8 @@ index.php
 			<input type="file" id="image" name="image" />
 		</fieldset>
 		<input type="Post" name="Post" value="Post" />
-	</form>
-	<?php 
+		</form>
+		<?php 
 		require_once 'database.php'; 
 		try {
 			$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
@@ -113,7 +115,6 @@ index.php
 							echo "You have been successfully Registered! Please try logging in.";
 							require_once "logging.php";
 							auditlog($myDBconnection, "New Topic Posted", 0, $user, "NULL", "NULL", "NULL");
-							}
 						} catch (PDOException $e) {
 							$error_message = $e -> getMessage();
 							echo $error_message . "<br>";
@@ -127,6 +128,7 @@ index.php
 			}
 		} else {
 			echo "The form has not been submitted.";
+		}
 		}
 	?>
 	</main>
