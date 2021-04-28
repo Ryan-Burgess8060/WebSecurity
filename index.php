@@ -91,8 +91,10 @@ index.php
 				$stext= sani( $_POST['text'] );
 				
 				if(!empty($_POST['image'])) {
+					echo "image is not empty";
 					$simage = sani($_POST['image']);
 					if($simage != "") {
+						echo "image passed sanitization";
 						$file = "images/" . $_FILES["image"]["name"];
 						if(move_uploaded_file($_FILES["image"]["tmp_name"], $file)) 
 						{
