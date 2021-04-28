@@ -48,7 +48,7 @@ index.php
 		foreach ($results as &$arr) {
 		?>
 			<li>
-			<a href="topics.php?t=<?php echo $arr['ID']; ?>"><?php echo $arr['Title']; ?></a>
+			<a href="topic.php?t=<?php echo $arr['ID']; ?>"><?php echo $arr['Title']; ?></a>
 			</li>
 		<?php } ?>
 		</ul>
@@ -109,6 +109,9 @@ index.php
 							echo "Invalid File Type";
 							exit();
 						}
+					} else {
+						echo "Please change your image name.";
+						exit();
 					}
 				}
 				//if the user bypasses clientside character limit, stops their attempt and logs it
