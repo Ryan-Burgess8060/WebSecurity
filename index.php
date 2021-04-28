@@ -93,8 +93,13 @@ index.php
 				$stext= sani( $_POST['password'] );
 				
 				if(!empty($_POST['image'])) {
-					simage = sani($_POST['image']);
+					$simage = sani($_POST['image']);
 					if($simage != "") {
+						$file = "images/" . $_FILES["image"]["name"];
+						if(move_uploaded_file($_FILES["image"]["tmp_name"], $file)) 
+						{
+							echo "<img src=".$file."  />";
+						}
 						$dimage = $simage;
 					}
 				}
