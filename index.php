@@ -35,7 +35,7 @@ index.php
 		} else {
 			echo "<p>Please log in or register.</p>";
 		}
-		
+		?> <h1>Forum Topics</h1> <?php
 		try {
 			$query = "SELECT ID, Title FROM topics";
 			$dbquery = $myDBconnection -> prepare($query);
@@ -47,7 +47,6 @@ index.php
 		}
 		foreach ($results as &$arr) {
 		?>
-		<h1>Forum Topics</h1>
 		<ul>
 			<li>
 			<a href="topics.php?t=<?php echo $arr['ID']; ?>"><?php echo $arr['Title']; ?></a>
@@ -132,8 +131,6 @@ index.php
 					}
 				}
 			}
-		} else {
-			echo "The form has not been submitted.";
 		}
 		}
 	?>
