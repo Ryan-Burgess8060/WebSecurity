@@ -99,6 +99,8 @@ index.php
 						if(move_uploaded_file($_FILES["image"]["tmp_name"], $file)) 
 						{
 							echo "<img src=".$file."  />";
+						} else {
+							echo "error uploading image";
 						}
 						$dimage = $simage;
 					}
@@ -118,7 +120,7 @@ index.php
 							$dbquery -> bindValue(':text', $stext);
 							$dbquery -> bindValue(':image', $dimage);
 							$dbquery -> execute();
-							echo "You have been successfully Registered! Please try logging in.";
+							echo "Form Posted!";
 							require_once "logging.php";
 							auditlog($myDBconnection, "New Topic Posted", 0, $user, "NULL", "NULL", "NULL");
 						} catch (PDOException $e) {
@@ -129,8 +131,6 @@ index.php
 						echo "Not all fields passed sanitization";
 					}
 				}
-			} else {
-				echo "Not all fields were filled in.";
 			}
 		} else {
 			echo "The form has not been submitted.";
