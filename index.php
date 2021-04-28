@@ -90,9 +90,9 @@ index.php
 				$stitle = sani( $_POST['title'] );
 				$stext= sani( $_POST['text'] );
 				
-				if(!empty($_FILES['image'])) {
+				if(!empty($_FILES['name'])) {
 					echo "image is not empty";
-					$simage = sani($_FILES['image']);
+					$simage = sani($_FILES['name']);
 					if($simage != "") {
 						echo "image passed sanitization";
 						$file = "images/" . $_FILES["image"]["name"];
