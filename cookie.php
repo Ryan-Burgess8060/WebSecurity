@@ -16,7 +16,6 @@ if(isset($_COOKIE['Authentication'])) {
 		$dbquery -> execute();
 		$result = $dbquery -> fetch();
 		if($result != "") {
-			$loggedInUser = $result["Username"];
 			$loggedIn = True;
 			if($result['Admin'] == "Yes") {
 				$Admin = True;
