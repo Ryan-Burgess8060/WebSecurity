@@ -56,7 +56,7 @@ index.php
 		if ($loggedIn == True) {
 		?>
 		<br>
-		<form method="post" enctype="multipart/form-data">
+		<form action="index.php" method="post" enctype="multipart/form-data">
 		<fieldset>
 		<legend>Make your topics here!</legend>
 			<label for="title">Title:</label>
