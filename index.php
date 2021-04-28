@@ -91,18 +91,24 @@ index.php
 				$stext= sani( $_POST['text'] );
 				
 				if(!empty($_FILES["image"]['name'])) {
-					echo "image is not empty";
 					$simage = sani($_FILES["image"]['name']);
 					if($simage != "") {
-						echo "image passed sanitization";
-						$file = "images/" . $_FILES["image"]["name"];
-						if(move_uploaded_file($_FILES["image"]["tmp_name"], $file)) 
-						{
-							echo "<img src=".$file."  />";
+						// File extension check came from here: https://stackoverflow.com/questions/31782832/i-cant-upload-some-pictures-with-php
+						$imageFileType = pathinfo($_FILES["image"]["name"],PATHINFO_EXTENSION);
+						if ($imageFileType == "jpg" || $imageFileType == "JPG" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif") {
+							echo "invalid file type";
+							$file = "images/" . $_FILES["image"]["name"];
+							if(move_uploaded_file($_FILES["image"]["tmp_name"], $file)) 
+							{
+								echo "<img src=".$file."  />";
+							} else {
+								echo "error uploading image";
+							}
+							$dimage = $simage;
 						} else {
-							echo "error uploading image";
+							echo "Invalid File Type";
+							exit();
 						}
-						$dimage = $simage;
 					}
 				}
 				//if the user bypasses clientside character limit, stops their attempt and logs it
