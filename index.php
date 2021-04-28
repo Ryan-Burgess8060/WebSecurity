@@ -67,7 +67,7 @@ index.php
 			<br>
 			<label for="newImage">Image:</label>
 			<input type="file" id="newImage" name="image" />
-			<input type="submit" name="Post Topic" value="Post" />
+			<input type="submit" name="Post" value="Post Topic" />
 		</fieldset>
 		</form>
 		<?php 
