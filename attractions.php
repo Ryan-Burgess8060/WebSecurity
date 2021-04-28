@@ -16,7 +16,6 @@
 			<?php
 			if(isset($_POST['mit']))
 			{ 
-				if (!empty($_POST['image'])) {
 				$file = "images/" . $_FILES["image"]["name"];
 
 				if(move_uploaded_file($_FILES["image"]["tmp_name"], $file)) 
@@ -27,9 +26,6 @@
 					{
 					echo "Error !!";
 					}
-				} else {
-					echo "yeah empty sucks";
-				}
 			} 
 			?>
 			<br class="clear">
