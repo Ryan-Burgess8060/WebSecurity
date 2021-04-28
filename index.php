@@ -35,7 +35,7 @@ index.php
 		} else {
 			echo "<p>Please log in or register.</p>";
 		}
-		?> <h1>Forum Topics</h1> <?php
+		?> <h1>Forum Topics</h1> <ul> <?php
 		try {
 			$query = "SELECT ID, Title FROM topics";
 			$dbquery = $myDBconnection -> prepare($query);
@@ -47,12 +47,11 @@ index.php
 		}
 		foreach ($results as &$arr) {
 		?>
-		<ul>
 			<li>
 			<a href="topics.php?t=<?php echo $arr['ID']; ?>"><?php echo $arr['Title']; ?></a>
 			</li>
-		</ul>
 		<?php } ?>
+		</ul>
 		<?php
 		if ($loggedIn == True) {
 		?>
@@ -69,7 +68,7 @@ index.php
 			<label for="image">Image:</label>
 			<input type="file" id="image" name="image" />
 		</fieldset>
-		<button type="Post" name="Post" value="Post" />
+		<input type="submit" name="Post" value="Post" />
 		</form>
 		<?php 
 		require_once 'database.php'; 
