@@ -50,7 +50,7 @@ topic.php
 					<p><?php echo $arr['Text']; ?></p>
 					<img src="<?php echo $arr['Image']; ?>" alt="Topic Image">
 				<?php } 
-			else {
+			} else {
 				echo "<p>Sorry! This topic does not exist!</p>";
 			}
 			?>
