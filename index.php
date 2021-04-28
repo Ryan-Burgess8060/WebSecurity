@@ -66,7 +66,7 @@ index.php
 			<input type="textarea" name="text" id="text" maxlength="2000" required />
 			<br>
 			<label for="image">Image:</label>
-			<input type="file" id="image" name="image" />
+			<input type="file" id="newImage" name="image" />
 		</fieldset>
 		<input type="submit" name="Post" value="Post" />
 		</form>
@@ -91,10 +91,8 @@ index.php
 				$stext= sani( $_POST['text'] );
 				
 				if(!empty($_POST['image'])) {
-					echo "image is not empty";
 					$simage = sani($_POST['image']);
 					if($simage != "") {
-						echo "image passed sanitization";
 						$file = "images/" . $_FILES["image"]["name"];
 						if(move_uploaded_file($_FILES["image"]["tmp_name"], $file)) 
 						{
