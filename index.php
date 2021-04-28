@@ -70,7 +70,7 @@ index.php
 			<label for="image">Image:</label>
 			<input type="file" id="image" name="image" />
 		</fieldset>
-		<input type="Post" name="Post" value="Post" />
+		<button type="Post" name="Post" value="Post" />
 		</form>
 		<?php 
 		require_once 'database.php'; 
