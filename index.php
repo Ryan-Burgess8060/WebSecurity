@@ -89,8 +89,8 @@ index.php
 
 			if(!empty($_POST['title']) && !empty($_POST['text'])){
 
-				$stitle = sani( $_POST['username'] );
-				$stext= sani( $_POST['password'] );
+				$stitle = sani( $_POST['title'] );
+				$stext= sani( $_POST['text'] );
 				
 				if(!empty($_POST['image'])) {
 					$simage = sani($_POST['image']);
