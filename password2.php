@@ -68,7 +68,7 @@ password.php
 				$squest = sani( $_POST['question']);
 				$sans = sani( $_POST['answer']);
 				//if the user bypasses clientside character limit, stops their attempt and logs it
-				if(strlen(strlen($_POST['answer']) > 50) {
+				if(strlen($_POST['answer']) > 50) {
 					echo "<p>You exceeded the maximum character limit!</p>";
 					$sans = password_hash($sans, PASSWORD_DEFAULT);
 					require_once "logging.php";
@@ -104,8 +104,6 @@ password.php
 			} else { //not all fields were filled in
 				echo "<p>Not all fields were filled in.</p>";
 			}
-		} else { //form not submitted
-			echo "<p>Form has not been submitted yet.</p>";
 		}
 	?>
 	</main>

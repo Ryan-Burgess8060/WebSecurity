@@ -67,8 +67,6 @@ password.php
 			} else { //not all fields were filled in
 				echo "<p>Not all fields were filled in.</p>";
 			}
-		} else { //form not submitted
-			echo "<p>Form has not been submitted yet.</p>";
 		}
 	?>
 	</main>
