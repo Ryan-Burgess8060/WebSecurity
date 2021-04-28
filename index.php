@@ -66,7 +66,7 @@ index.php
 			<input type="textarea" name="text" id="text" maxlength="2000" required />
 			<br>
 			<label for="image">Image:</label>
-			<input type="file" id="newImage" name="image" />
+			<input type="file" id="image" name="image" />
 		</fieldset>
 		<input type="submit" name="Post" value="Post" />
 		</form>
@@ -90,18 +90,21 @@ index.php
 				$stitle = sani( $_POST['title'] );
 				$stext= sani( $_POST['text'] );
 				
-				$simage = sani($_POST['image']);
-				if($simage != "") {
-					$file = "images/" . $_FILES["image"]["name"];
-					if(move_uploaded_file($_FILES["image"]["tmp_name"], $file)) 
-					{
-						echo "<img src=".$file."  />";
-					} else {
-						echo "error uploading image";
+				if(!empty($_POST['image'])) {
+					echo "image is not empty";
+					$simage = sani($_POST['image']);
+					if($simage != "") {
+						echo "image passed sanitization";
+						$file = "images/" . $_FILES["image"]["name"];
+						if(move_uploaded_file($_FILES["image"]["tmp_name"], $file)) 
+						{
+							echo "<img src=".$file."  />";
+						} else {
+							echo "error uploading image";
+						}
+						$dimage = $simage;
 					}
-					$dimage = $simage;
 				}
-
 				//if the user bypasses clientside character limit, stops their attempt and logs it
 				if(strlen($_POST['title']) > 100 || strlen($_POST['text']) > 2000) {
 					echo "<p>You exceeded the maximum character limit!</p>";
