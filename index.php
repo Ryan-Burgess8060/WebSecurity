@@ -67,8 +67,8 @@ index.php
 			<br>
 			<label for="newImage">Image:</label>
 			<input type="file" id="newImage" name="image" />
+			<input type="submit" name="Post Topic" value="Post" />
 		</fieldset>
-		<input type="submit" name="Post" value="Post" />
 		</form>
 		<?php 
 		require_once 'database.php'; 
