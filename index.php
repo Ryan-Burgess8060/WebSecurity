@@ -65,10 +65,10 @@ index.php
 			<label for="text">Text:</label>
 			<input type="textarea" name="text" id="text" maxlength="2000" required />
 			<br>
-			<label for="newImage">Image:</label>
-			<input type="file" id="newImage" name="image" />
-			<input type="submit" name="Post" value="Post Topic" />
+			<label for="image">Image:</label>
+			<input type="file" id="image" name="image" />
 		</fieldset>
+		<input type="submit" name="Post" value="Post Topic" />
 		</form>
 		<?php 
 		require_once 'database.php'; 
