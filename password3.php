@@ -64,7 +64,7 @@ password.php
 					auditlog($myDBconnection, "Password Recovery Attempt Exceeded Character Limit", 2, $_SESSION["username"], $spass, $_SESSION["quest"], $_SESSION["answer"]);
 				} else {
 					if($spass != "") {
-						$user = $_SESSION["username"]
+						$user = $_SESSION["username"];
 						$spass = password_hash($spass, PASSWORD_DEFAULT);
 						$query = 'UPDATE accounts SET Password = :pass WHERE Username = :user;';
 						$dbquery = $myDBconnection -> prepare($query);
