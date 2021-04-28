@@ -96,13 +96,12 @@ index.php
 						// File extension check came from here: https://stackoverflow.com/questions/31782832/i-cant-upload-some-pictures-with-php
 						$imageFileType = pathinfo($_FILES["image"]["name"],PATHINFO_EXTENSION);
 						if ($imageFileType == "jpg" || $imageFileType == "JPG" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif") {
-							echo "invalid file type";
 							$file = "images/" . $_FILES["image"]["name"];
 							if(move_uploaded_file($_FILES["image"]["tmp_name"], $file)) 
 							{
-								echo "<img src=".$file."  />";
 							} else {
 								echo "error uploading image";
+								exit();
 							}
 							$dimage = $simage;
 						} else {
@@ -129,9 +128,9 @@ index.php
 							$dbquery -> bindValue(':text', $stext);
 							$dbquery -> bindValue(':image', $dimage);
 							$dbquery -> execute();
-							echo "Form Posted!";
 							require_once "logging.php";
 							auditlog($myDBconnection, "New Topic Posted", 0, $user, "NULL", "NULL", "NULL");
+							header('Location:index.php');
 						} catch (PDOException $e) {
 							$error_message = $e -> getMessage();
 							echo $error_message . "<br>";
