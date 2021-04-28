@@ -90,11 +90,11 @@ index.php
 				$stitle = sani( $_POST['title'] );
 				$stext= sani( $_POST['text'] );
 				
-				// if(!empty($_POST['image'])) {
-					// echo "image is not empty";
-					// $simage = sani($_POST['image']);
-					// if($simage != "") {
-						// echo "image passed sanitization";
+				if(!empty($_FILES['image'])) {
+					echo "image is not empty";
+					$simage = sani($_FILES['image']);
+					if($simage != "") {
+						echo "image passed sanitization";
 						$file = "images/" . $_FILES["image"]["name"];
 						if(move_uploaded_file($_FILES["image"]["tmp_name"], $file)) 
 						{
@@ -103,8 +103,8 @@ index.php
 							echo "error uploading image";
 						}
 						$dimage = $simage;
-					// }
-				// }
+					}
+				}
 				//if the user bypasses clientside character limit, stops their attempt and logs it
 				if(strlen($_POST['title']) > 100 || strlen($_POST['text']) > 2000) {
 					echo "<p>You exceeded the maximum character limit!</p>";
