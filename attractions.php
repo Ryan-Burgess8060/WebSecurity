@@ -16,6 +16,10 @@
 			<?php
 			if(isset($_POST['mit']))
 			{ 
+				if(!empty($_POST['image'])) {
+				echo "image is not empty";
+				$simage = sani($_POST['image']);
+				if($simage != "") {
 				$file = "images/" . $_FILES["image"]["name"];
 
 				if(move_uploaded_file($_FILES["image"]["tmp_name"], $file)) 
@@ -26,6 +30,8 @@
 					{
 					echo "Error !!";
 					}
+					}
+				}
 			} 
 			?>
 			<br class="clear">
