@@ -24,6 +24,7 @@ index.php
 	</nav>
 	<main>
 		<?php
+		echo $loggedInUser;
 		if ($loggedIn == True) {
 			$query = 'SELECT Username FROM sessions WHERE Token = :token;';
 			$dbquery = $myDBconnection -> prepare($query);
