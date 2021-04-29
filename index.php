@@ -5,7 +5,7 @@ require "cookie.php";
 <html lang="en-US">
 <!--
 Christopher Burgess
-1/29/2021
+4/28/2021
 index.php
 -->
 <head>
@@ -56,6 +56,7 @@ index.php
 		if ($loggedIn == True) {
 		?>
 		<br>
+		<!-- Multipart ectype came from w3c. https://www.w3schools.com/tags/att_form_enctype.asp -->
 		<form action="index.php" enctype="multipart/form-data" method="post">
 		<fieldset>
 		<legend>Make your topics here!</legend>
@@ -72,24 +73,20 @@ index.php
 		</form>
 		<?php 
 		require_once 'database.php'; 
-		try {
-			$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
-		} catch (PDOException $e) {
-			$error_message = $e->getMessage();
-			print $error_message . "<br>";
-		}
+		//myDBconnection came from lab 14 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061 
+		$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
+		
+		//This specific sanitization function came from lab 16 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061
 		function sani($bad){
 			$good =  htmlentities( strip_tags( stripslashes( $bad ) ) );
 			return $good;
 		}
 
 		if(isset($_POST['Post'])) {
-
+			//Sanitization process came from lab 16 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061
 			if(!empty($_POST['title']) && !empty($_POST['text'])){
-
 				$stitle = sani( $_POST['title'] );
 				$stext= sani( $_POST['text'] );
-				
 				if(!empty($_FILES["image"]['name'])) {
 					$simage = sani($_FILES["image"]['name']);
 					if($simage != "") {
@@ -131,9 +128,6 @@ index.php
 							require_once "logging.php";
 							auditlog($myDBconnection, "New Topic Posted", 0, $user, "NULL", "NULL", "NULL");
 							header('Location:index.php');
-						} catch (PDOException $e) {
-							$error_message = $e -> getMessage();
-							echo $error_message . "<br>";
 						}
 					} else {
 						echo "Not all fields passed sanitization";

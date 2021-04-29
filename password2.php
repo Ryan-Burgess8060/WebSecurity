@@ -50,20 +50,17 @@ password.php
 	<?php
 
 		require_once 'database.php'; 
-		try {
-			$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
-		} catch (PDOException $e) {
-			$error_message = $e->getMessage();
-			print $error_message . "<br>";
-		}
+		//myDBconnection came from lab 14 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061 
+		$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
 
+		//This specific sanitization function came from lab 16 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061
 		function sani($bad){
 			$good =  htmlentities( strip_tags( stripslashes( $bad ) ) );
 			return $good;
 		}
 
 		if(isset($_POST["recover"])){ 
-
+			//Sanitization process came from lab 16 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061
 			if(!empty($_POST['question']) && !empty($_POST['answer'])) {
 				$squest = sani( $_POST['question']);
 				$sans = sani( $_POST['answer']);
@@ -75,17 +72,12 @@ password.php
 					auditlog($myDBconnection, "Password Recovery Attempt Exceeded Character Limit", 2, $_SESSION["username"], "NULL", $squest, $sans);
 				} else {
 					if($squest != "" && $sans != "") {
-						try {
-							$user = $_SESSION["username"];
-							$query = 'SELECT Username, SecQuestion, SecAnswer FROM accounts WHERE Username = :user';
-							$dbquery = $myDBconnection -> prepare($query);
-							$dbquery -> bindValue(':user', $user); 
-							$dbquery -> execute();
-							$result = $dbquery -> fetch();
-						} catch (PDOException $e) {
-							$error_message = $e->getMessage();
-							echo "<p>An error occurred while trying to retrieve data from the table: $error_message </p>";
-						}
+						$user = $_SESSION["username"];
+						$query = 'SELECT Username, SecQuestion, SecAnswer FROM accounts WHERE Username = :user';
+						$dbquery = $myDBconnection -> prepare($query);
+						$dbquery -> bindValue(':user', $user); 
+						$dbquery -> execute();
+						$result = $dbquery -> fetch();
 						if ($user == $result['Username'] && $squest == $result['SecQuestion'] && password_verify($sans, $result['SecAnswer'])) {
 							$_SESSION["quest"] = $squest;
 							$sans = password_hash($sans, PASSWORD_DEFAULT);

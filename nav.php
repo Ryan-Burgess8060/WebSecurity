@@ -4,6 +4,7 @@ Christopher Burgess
 nav.php
 -->
 <?php 
+	//This nav method came from lab 17 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061 
 	require "database.php";
 	if ($Admin == True) {
 		echo '<ul><li><a href="index.php">Home</a></li><li><a href="logout.php">Logout</a></li><li><a href="admin.php">Admin</a></li></ul>';

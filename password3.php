@@ -40,20 +40,17 @@ password.php
 	<?php
 
 		require_once 'database.php'; 
-		try {
-			$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
-		} catch (PDOException $e) {
-			$error_message = $e->getMessage();
-			print $error_message . "<br>";
-		}
+		//myDBconnection came from lab 14 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061 
+		$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
 
+		//This specific sanitization function came from lab 16 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061
 		function sani($bad){
 			$good =  htmlentities( strip_tags( stripslashes( $bad ) ) );
 			return $good;
 		}
 
 		if(isset($_POST["recover"])){ 
-
+			//Sanitization process came from lab 16 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061
 			if(!empty($_POST['password'])) {
 				$spass = sani($_POST["password"]);
 				//if the user bypasses clientside character limit, stops their attempt and logs it

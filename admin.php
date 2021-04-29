@@ -29,12 +29,8 @@ admin.php
 	<main>
 		<?php
 		require_once 'database.php'; 
-		try {
-			$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
-		} catch (PDOException $e) {
-			$error_message = $e->getMessage();
-			print $error_message . "<br>";
-		}
+		//myDBconnection came from lab 14 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061 
+		$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
 		try {
 			$query = "SELECT Username FROM accounts WHERE Admin = 'No';";
 			$dbquery = $myDBconnection -> prepare($query);
@@ -57,16 +53,11 @@ admin.php
 		<?php
 		$d = 'delete' . $arr['Username'];
 		if(isset($_POST[$d])) {
-			try {
-				$query = 'DELETE FROM accounts WHERE Username = :user AND Admin = "No";';
-				$dbquery = $myDBconnection -> prepare($query);
-				$dbquery -> bindValue(':user', $arr['Username']); 
-				$dbquery -> execute();
-				header('Location:admin.php');
-			} catch (PDOException $e) {
-				$error_message = $e->getMessage();
-				echo "<p>An error occurred while trying to delete data from the table: $error_message </p>";
-			}
+			$query = 'DELETE FROM accounts WHERE Username = :user AND Admin = "No";';
+			$dbquery = $myDBconnection -> prepare($query);
+			$dbquery -> bindValue(':user', $arr['Username']); 
+			$dbquery -> execute();
+			header('Location:admin.php');
 		}
 		}
 		?>

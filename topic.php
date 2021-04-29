@@ -5,7 +5,7 @@ require "cookie.php";
 <html lang="en-US">
 <!--
 Christopher Burgess
-2/28/2021
+4/28/2021
 topic.php
 -->
 <head>
@@ -26,22 +26,15 @@ topic.php
 		<?php
 		$t = $_GET["t"];
 		require_once 'database.php'; 
-		try {
+			//myDBconnection came from lab 14 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061 
 			$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
-		} catch (PDOException $e) {
-			$error_message = $e->getMessage();
-			print $error_message . "<br>";
-		}
-		try {
+			
 			$query = "SELECT Username, Date, Title, Text, Image FROM topics WHERE ID = :id;";
 			$dbquery = $myDBconnection -> prepare($query);
 			$dbquery -> bindValue(':id', $t);
 			$dbquery -> execute();
 			$results = $dbquery -> fetchAll();
-		} catch (PDOException $e) {
-			$error_message = $e -> getMessage();
-			echo $error_message . "<br>";
-		}
+			
 			if ($results != "") {
 				foreach ($results as &$arr) {
 				?>

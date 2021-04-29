@@ -36,19 +36,16 @@ login.php
 	</form>
 	<?php
 		require_once 'database.php'; 
-		try {
-			$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
-		} catch (PDOException $e) {
-			$error_message = $e->getMessage();
-			print $error_message . "<br>";
-		}
-		//sanitize function
+		//myDBconnection came from lab 14 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061 
+		$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
+		
+		//This specific sanitization function came from lab 16 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061
 		function sani($bad){
 			$good =  htmlentities( strip_tags( stripslashes( $bad ) ) );
 			return $good;
 		}
 		if(isset($_POST["login"])){ 
-			
+			//Sanitization process came from lab 16 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061
 			if( !empty($_POST["username"]) && !empty($_POST["password"])) {
 				$suser = sani($_POST["username"]);
 				$spass = sani($_POST["password"]);
@@ -60,16 +57,11 @@ login.php
 					auditlog($myDBconnection, "Login Attempt Exceeded Character Limit", 2, $suser, $spass, "NULL", "NULL");
 				} else {
 					if( $suser != "" && $spass != "" ) {
-						try {
-							$query = 'SELECT Username, Password, Admin FROM accounts WHERE Username = :user;';
-							$dbquery = $myDBconnection -> prepare($query);
-							$dbquery -> bindValue(':user', $suser); 
-							$dbquery -> execute();
-							$result = $dbquery -> fetch();
-						} catch (PDOException $e) {
-							$error_message = $e->getMessage();
-							echo "<p>An error occurred while trying to retrieve data from the table: $error_message </p>";
-						}
+						$query = 'SELECT Username, Password, Admin FROM accounts WHERE Username = :user;';
+						$dbquery = $myDBconnection -> prepare($query);
+						$dbquery -> bindValue(':user', $suser); 
+						$dbquery -> execute();
+						$result = $dbquery -> fetch();
 						if ($suser == $result['Username'] && password_verify($spass, $result['Password'])) {
 							$spass = password_hash($spass, PASSWORD_DEFAULT);
 							require_once "logging.php";
