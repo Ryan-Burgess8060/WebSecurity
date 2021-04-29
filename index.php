@@ -36,15 +36,10 @@ index.php
 			echo "<p>Please log in or register.</p>";
 		}
 		?> <h1>Forum Topics</h1> <ul> <?php
-		try {
 			$query = "SELECT ID, Title FROM topics";
 			$dbquery = $myDBconnection -> prepare($query);
 			$dbquery -> execute();
 			$results = $dbquery -> fetchAll();
-		} catch (PDOException $e) {
-			$error_message = $e -> getMessage();
-			echo $error_message . "<br>";
-		}
 		foreach ($results as &$arr) {
 		?>
 			<li>

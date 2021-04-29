@@ -31,15 +31,10 @@ admin.php
 		require_once 'database.php'; 
 		//myDBconnection came from lab 14 from Hawkin's Web Programming class. Cannot get exact link since lab dropboxes are closed. https://georgiasouthern.desire2learn.com/d2l/home/539061 
 		$myDBconnection = new PDO("mysql:host=$HOST_NAME;dbname=$DATABASE_NAME", $USERNAME, $PASSWORD);
-		try {
-			$query = "SELECT Username FROM accounts WHERE Admin = 'No';";
-			$dbquery = $myDBconnection -> prepare($query);
-			$dbquery -> execute();
-			$results = $dbquery -> fetchAll();
-		} catch (PDOException $e) {
-			$error_message = $e -> getMessage();
-			echo $error_message . "<br>";
-		}
+		$query = "SELECT Username FROM accounts WHERE Admin = 'No';";
+		$dbquery = $myDBconnection -> prepare($query);
+		$dbquery -> execute();
+		$results = $dbquery -> fetchAll();
 		foreach ($results as &$arr) {
 		?>
 		<ul>
