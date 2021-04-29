@@ -88,6 +88,7 @@ password.php
 							$sans = password_hash($sans, PASSWORD_DEFAULT);
 							require_once "logging.php";
 							auditlog($myDBconnection, "Password Recovery Failed", 1, $user, "NULL", $squest, $sans);
+							header("Location:password.php");
 						}
 					} else { //not all sanitized variables have values
 						echo "<p>Bad data was inserted into the fields.</p>";
