@@ -117,25 +117,23 @@ index.php
 					auditlog($myDBconnection, "Topic Creation Attempt Exceeded Character Limit", 2, $user, "NULL", "NULL", "NULL");
 				} else {
 					if($stitle != "" && $stext != ""){
-						try {
-							$query = "INSERT INTO topics (Username, Date, Title, Text, Image) VALUES (:user, NOW(), :title, :text, :image);";
-							$dbquery = $myDBconnection -> prepare($query);
-							$dbquery -> bindValue(':user', $user);
-							$dbquery -> bindValue(':title', $stitle);
-							$dbquery -> bindValue(':text', $stext);
-							$dbquery -> bindValue(':image', $dimage);
-							$dbquery -> execute();
-							require_once "logging.php";
-							auditlog($myDBconnection, "New Topic Posted", 0, $user, "NULL", "NULL", "NULL");
-							header('Location:index.php');
-						}
+						$query = "INSERT INTO topics (Username, Date, Title, Text, Image) VALUES (:user, NOW(), :title, :text, :image);";
+						$dbquery = $myDBconnection -> prepare($query);
+						$dbquery -> bindValue(':user', $user);
+						$dbquery -> bindValue(':title', $stitle);
+						$dbquery -> bindValue(':text', $stext);
+						$dbquery -> bindValue(':image', $dimage);
+						$dbquery -> execute();
+						require_once "logging.php";
+						auditlog($myDBconnection, "New Topic Posted", 0, $user, "NULL", "NULL", "NULL");
+						header('Location:index.php');
 					} else {
 						echo "Not all fields passed sanitization";
 					}
 				}
 			}
 		}
-		}
+	}
 	?>
 	</main>
 </body>
